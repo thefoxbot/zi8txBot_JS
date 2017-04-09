@@ -1,0 +1,12 @@
+{
+  "name": "zi8tx-bot_jsport",
+  "version": "0.0.1",
+  "description": "A JS-Port of the zi8txBot for Discord.",
+  "main": "src/main/app.js",
+  "author": {
+    "name": "LordaS"
+  },
+  "dependencies": {
+    "discord.js": "^11.0.0"
+  }
+}
