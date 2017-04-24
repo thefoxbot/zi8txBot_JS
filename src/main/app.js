@@ -20,7 +20,7 @@ bot.on('message', msg => {
 
     if (msg.content.startsWith("z.smack")) {
         if (params[0] !== undefined) {
-            msg.channel.sendMessage("**" + msg.author.username + "smacked" + params[0] + "**")
+            msg.channel.sendMessage("**" + msg.author.username + " smacked " + msg.content.replace("z.smack ", "") + "**")
         } else {
             msg.channel.sendMessage("Invalid syntax: `z.smack [person]`")
         }
@@ -57,7 +57,7 @@ bot.on('message', msg => {
     if (msg.content.startsWith("z.8ball")) {
         if (params[0] !== undefined) {
             ballmsg = ["I don't think so", "Perhaps another time", "My sources say no", "My sources say yes", "Take a sip and repeat"]
-            msg.channel.sendMessage(ballmsg(Math.Floor[Math.Random() * ballmsg.size]))
+            msg.channel.sendMessage(ballmsg[Math.Floor(Math.random() * ballmsg.size)])
         } else {
             msg.channel.sendMessage("Invalid syntax: `z.8ball [question]`")
         }
@@ -68,6 +68,7 @@ bot.on('message', msg => {
         setTimeout(function () { economy[msg.author.id].dailyPossible = true }, 14400000)
         economy[msg.author.id].money = economy[msg.author.id].money + 400
         msg.reply("You claimed your 4-Hour Money Bonus!")
+		fs.writeFile("../json/eco.json", JSON.stringify(economy))
     }
 
     if (msg.content === 'z$eco') {
