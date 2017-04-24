@@ -10,6 +10,7 @@ bot.on('ready', () => {
 })
 
 bot.on('message', msg => {
+	let params = msg.content.split(" ").slice(1, (msg.content.split(" ").length - 1));
     if (msg.content === 'z.version') {
         msg.reply('**zi8txBot-JS Version 1.0**\nLanguage: **JavaScript**\nCreated: **9th April 2017**\nz.help for commands\nThanks to TheFox for helping me with some stuff!')
     }
@@ -28,14 +29,23 @@ bot.on('message', msg => {
 
     if (msg.content.startsWith("z.rip")) {
         if (msg.author.id === "112559794543468544") {
-            msg.channel.sendMessage("Rip in peace?")
+            msg.channel.sendMessage("Rip in peace?").then((m) => {
             process.exit()
+			})
         } else {
             messages = ["Run you fools...", "Impossibru!", "Nope", "Negatory!", "Cyka Blyat Idi Nahui!", "You're not zi8tx!!!", "TRAITOR!", "Kill it with fire before it lays eggs!", "This is not the command you are looking for"]
             msg.channel.sendMessage(messages[Math.floor(Math.Random() * messages.size)])
         }
     }
 
+	//ping command (added in by fox)
+	if (msg.content === "z.ping")) {
+	msg.channel.sendMessage(":hourglass_flowing_sand: Pinging...").then((m) => {
+			var ping = m.createdTimestamp-msg.createdTimestamp
+			m.edit(":hourglass: **"+ping+"ms**")
+		})
+	}
+	
     if (msg.content.startsWith("z.afk")) {
         if (msg.author.id === "112559794543468544") {
             bot.user.setStatus("dnd")
@@ -64,6 +74,11 @@ bot.on('message', msg => {
     }
 
     if (msg.content === 'z$claim') {
+		
+		if (economy[msg.author.id] === null) { //checking if a user is even registered
+			ecoHandle_userReset(msg.author.id) //registering the acc
+		}
+		
         economy[msg.author.id].dailyPossible = false
         setTimeout(function () { economy[msg.author.id].dailyPossible = true }, 14400000)
         economy[msg.author.id].money = economy[msg.author.id].money + 400
@@ -72,10 +87,18 @@ bot.on('message', msg => {
     }
 
     if (msg.content === 'z$eco') {
+		
+		if (economy[msg.author.id] === null) { //checking if a user is even registered
+			ecoHandle_userReset(msg.author.id) //registering the acc
+		}
+		
         msg.channel.sendMessage("You have " + economy[msg.author.id].money + "zCoins")
     }
 
     if (msg.content.startsWith("z$don ")) {
+		if (economy[msg.author.id] === null) { //checking if a user is even registered
+			ecoHandle_userReset(msg.author.id) //registering the acc
+		}
         if (economy[msg.author.id].money > params[0] - 1 && params[0] > 15 && params[0] < 100) {
             if (Math.random() < 0.5000001) {
                 msg.reply("You lost...")
